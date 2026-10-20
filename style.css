@@ -1,0 +1,133 @@
+/* 引入圆润可爱的字体 */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* 温柔的马卡龙渐变背景 */
+    background: linear-gradient(135deg, #ffeef8 0%, #e0f7fa 50%, #fff0f5 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Quicksand', 'Comic Sans MS', sans-serif;
+    overflow: hidden;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+h1 {
+    color: #ff7eb3;
+    text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+    letter-spacing: 2px;
+}
+
+.score-board {
+    background: rgba(255, 255, 255, 0.7);
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 1.5rem;
+    color: #ff7eb3;
+    font-weight: 700;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(255, 182, 193, 0.3);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    backdrop-filter: blur(5px);
+}
+
+.combo-text {
+    color: #ff9a9e;
+    font-weight: bold;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.combo-text.show {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+/* 奶油蛋糕质感的棋盘底板 */
+.board {
+    position: relative;
+    width: 480px;
+    height: 480px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 24px;
+    box-shadow: 
+        inset 0 0 30px rgba(255, 255, 255, 0.9),
+        0 15px 35px rgba(255, 182, 193, 0.3),
+        0 5px 15px rgba(0, 0, 0, 0.05);
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+/* 方块基础样式 */
+.tile {
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    background: rgba(255, 255, 255, 0.75);
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+    cursor: pointer;
+    user-select: none;
+    /* 柔和的发光边缘与阴影 */
+    box-shadow: 
+        0 4px 8px rgba(255, 182, 193, 0.4), 
+        inset 0 0 12px rgba(255, 255, 255, 0.8),
+        0 0 0 2px rgba(255, 255, 255, 0.5);
+    /* 平滑滑动与悬浮过渡 */
+    transition: top 0.3s ease-out, left 0.3s ease-out, transform 0.2s ease;
+}
+
+/* 悬浮放大 */
+.tile:not(.selected):not(.melt):hover {
+    transform: scale(1.1);
+    z-index: 5;
+}
+
+/* 选中时的呼吸灯与上下浮动动画 */
+@keyframes breathe {
+    0%, 100% { 
+        transform: translateY(0) scale(1); 
+        box-shadow: 0 4px 8px rgba(255, 182, 193, 0.4), inset 0 0 12px rgba(255, 255, 255, 0.8), 0 0 0 2px rgba(255, 255, 255, 0.5);
+    }
+    50% { 
+        transform: translateY(-6px) scale(1.05); 
+        box-shadow: 0 10px 20px rgba(255, 105, 180, 0.6), inset 0 0 15px rgba(255, 255, 255, 1), 0 0 0 3px rgba(255, 182, 193, 0.8);
+    }
+}
+
+.tile.selected {
+    animation: breathe 1s infinite ease-in-out;
+    z-index: 10;
+}
+
+/* 消除时的融化特效 */
+@keyframes melt {
+    0% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+.tile.melt {
+    animation: melt 0.3s forwards ease-in;
+    pointer-events: none;
+}
